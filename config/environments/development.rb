@@ -1,6 +1,22 @@
-require "active_support/core_ext/integer/time"
-
 Rails.application.configure do
+    config.hosts.clear
+    path = Rails.root.join("whitelist.yml")
+    default_whitelist_path = Rails.root.join("default_whitelist.yml")
+    whitelisted_ips = []
+
+    if File.exist?(path)
+      whitelisted_ips = YAML.load_file(path)
+    end
+
+    if File.exist?(default_whitelist_path)
+      whitelisted_ips = whitelisted_ips.concat(YAML.load_file(default_whitelist_path))
+    end
+
+    config.web_console.permissions = whitelisted_ips
+    config.web_console.whiny_requests = false
+
+    BetterErrors::Middleware.allow_ip! '10.138.0.0/16'
+
   # Settings specified here will take precedence over those in config/application.rb.
 
   # In the development environment your application's code is reloaded on
@@ -33,12 +49,6 @@ Rails.application.configure do
   # Print deprecation notices to the Rails logger.
   config.active_support.deprecation = :log
 
-  # Raise exceptions for disallowed deprecations
-  config.active_support.disallowed_deprecation = :raise
-
-  # Tell ActiveSupport which deprecating messages to disallow
-  config.active_support.disallowed_deprecation_warnings = []
-
   # Raise an error on page load if there are pending migrations.
   config.active_record.migration_error = :page_load
 
@@ -48,21 +58,15 @@ Rails.application.configure do
   # Debug mode disables concatenation and preprocessing of assets.
   # This option may cause significant delays in view rendering with a large
   # number of complex assets.
-  config.assets.debug = true
+  config.assets.debug = false
 
   # Suppress logger output for asset requests.
   config.assets.quiet = true
 
   # Raises error for missing translations.
-  # config.i18n.raise_on_missing_translations = true
-
-  # Annotate rendered view with file names
-  # config.action_view.annotate_rendered_view_with_filenames = true
+  # config.action_view.raise_on_missing_translations = true
 
   # Use an evented file watcher to asynchronously detect changes in source code,
   # routes, locales, etc. This feature depends on the listen gem.
   config.file_watcher = ActiveSupport::EventedFileUpdateChecker
-
-  # Uncomment if you wish to allow Action Cable access from any origin
-  # config.action_cable.disable_request_forgery_protection = true
 end

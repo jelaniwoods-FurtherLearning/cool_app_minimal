@@ -1,24 +1,9 @@
-# README
+# Cool App Minimal
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+## Standard Workflow
 
-Things you may want to cover:
-
-* Ruby version
-
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+ 1. Set up the project: `bin/setup`
+ 1. Start the web server by clicking "Run Project".
+ 1. Navigate to your live application preview.
+ 1. As you work, remember to navigate to `/git` and **commit often as you work.**
+ 1. Run `rails grade` as often as you like to see how you are doing, but **make sure you test your app manually first to make sure it matches the target's behavior first**.
